@@ -698,14 +698,15 @@
   </div>
 
   <script>
+    
     // Config settings
-    let config = {
-      city: 'Dinajpur',
-      country: 'Bangladesh',
-      year: 2025,
-      month: 3, 
-      method: 2 
-    };
+let config = {
+  city: 'Dinajpur',
+  country: 'Bangladesh',
+  year: new Date().getFullYear(),
+  month: new Date().getMonth() + 1, // JavaScript months are 0-indexed
+  method: 2 
+};
     
     
     try {
@@ -789,25 +790,41 @@
     
 
     function getCurrentDayData() {
-      const today = new Date();
-      const day = today.getDate();
-      
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth() + 1; // JavaScript months are 0-indexed
+  const year = today.getFullYear();
   
-      const dayData = prayerTimesData.find(item => {
-        const itemDate = new Date(item.date.gregorian.date);
-        return itemDate.getDate() === day && 
-               itemDate.getMonth() + 1 === config.month && 
-               itemDate.getFullYear() === config.year;
-      });
-      
-      if (dayData) {
-        return dayData;
-      }
-      
+  // First try to find an exact match for today
+  const dayData = prayerTimesData.find(item => {
+    const itemDate = new Date(item.date.gregorian.date);
+    return itemDate.getDate() === day && 
+           itemDate.getMonth() + 1 === month && 
+           itemDate.getFullYear() === year;
+  });
+  
+  if (dayData) {
+    return dayData;
+  }
+  
+  // If we can't find today's date in the data, find the closest date
+  // This helps when the app loads data for a specific month but we're in a different month/day
+  if (prayerTimesData.length > 0) {
+    // Sort by date difference to find closest date
+    const sortedData = [...prayerTimesData].sort((a, b) => {
+      const dateA = new Date(a.date.gregorian.date);
+      const dateB = new Date(b.date.gregorian.date);
+      const diffA = Math.abs(today.getTime() - dateA.getTime());
+      const diffB = Math.abs(today.getTime() - dateB.getTime());
+      return diffA - diffB;
+    });
     
-      return prayerTimesData[0];
-    }
-    
+    return sortedData[0]; // Return closest date
+  }
+  
+  // Fallback to first item if no match found
+  return prayerTimesData[0];
+}
    
     function updateDateDisplay() {
       if (!currentDayData) return;
