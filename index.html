@@ -5,523 +5,604 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ramadan Prayer Time</title>
   <style>
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap');
+    
+    :root {
+      --primary: #094838;
+      --primary-dark: #052e23;
+      --gold: #dbc391;
+      --gold-dark: #8a703f;
+      --light-bg: #fdf6e9;
+      --light-accent: #f0e6d2;
+      --border-light: #e6dfd0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Amiri', serif;
+      background-color: #33261d;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #33312e;
+      background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+      background-size: 300px;
+      background-repeat: repeat;
+      background-blend-mode: overlay;
+      background-color: rgba(51, 38, 29, 0.95);
+    }
+    
+    .main-container {
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      padding: 20px;
+    }
+    
+    /* Decorative corners */
+    .corner {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      z-index: 2;
+    }
+    
+    .corner-top-left {
+      top: 10px;
+      left: 10px;
+      border-top: 4px solid var(--gold);
+      border-left: 4px solid var(--gold);
+    }
+    
+    .corner-top-right {
+      top: 10px;
+      right: 10px;
+      border-top: 4px solid var(--gold);
+      border-right: 4px solid var(--gold);
+    }
+    
+    .corner-bottom-left {
+      bottom: 10px;
+      left: 10px;
+      border-bottom: 4px solid var(--gold);
+      border-left: 4px solid var(--gold);
+    }
+    
+    .corner-bottom-right {
+      bottom: 10px;
+      right: 10px;
+      border-bottom: 4px solid var(--gold);
+      border-right: 4px solid var(--gold);
+    }
+    
+    .container {
+      background-color: var(--light-bg);
+      border-radius: 8px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      border: 12px solid transparent;
+      border-image: linear-gradient(45deg, var(--gold) 0%, var(--gold-dark) 100%) 1;
+    }
+    
+    /* Islamic pattern border */
+    .islamic-border {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 8px solid var(--gold);
+      box-shadow: inset 0 0 0 2px var(--primary);
+      pointer-events: none;
+      border-radius: 2px;
+    }
+    
+    /* Decorative dome shape for top */
+    .dome {
+      position: absolute;
+      top: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 70px;
+      background-color: var(--primary);
+      border-top-left-radius: 50px;
+      border-top-right-radius: 50px;
+      border: 8px solid var(--gold);
+      border-bottom: none;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .dome::after {
+      content: "☪";
+      position: absolute;
+      top: 10px;
+      font-size: 24px;
+      color: var(--gold);
+    }
+    
+    .header {
+      background-color: var(--primary);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 6px solid var(--gold);
+    }
+    
+    /* Islamic pattern overlay for header */
+    .header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.1;
+      background-image: 
+        repeating-radial-gradient(circle at 0 0, transparent 0, var(--light-bg) 20px),
+        repeating-linear-gradient(#ffffff55, #ffffff55);
+      background-blend-mode: multiply;
+    }
+    
+    /* Minaret silhouettes */
+    .minaret-left, .minaret-right {
+      position: absolute;
+      bottom: 0;
+      width: 15px;
+      height: 60px;
+      background-color: var(--primary-dark);
+    }
+    
+    .minaret-left {
+      left: 15%;
+    }
+    
+    .minaret-right {
+      right: 15%;
+    }
+    
+    .minaret-left::after, .minaret-right::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 15px;
+      height: 15px;
+      background-color: var(--primary-dark);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-family: 'Scheherazade New', serif;
+      font-weight: 700;
+      position: relative;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    
+    .arabic-title {
+      font-family: 'Scheherazade New', serif;
+      font-size: 42px;
+      margin-bottom: 10px;
+      color: var(--gold);
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    
+    .date-display {
+      font-size: 18px;
+      margin-top: 15px;
+      position: relative;
+      color: #e8d8b5;
+    }
+    
+    .hijri-date {
+      font-size: 17px;
+      margin-top: 5px;
+      position: relative;
+      font-style: italic;
+      color: #e8d8b5;
+    }
+    
+    .clock {
+      font-size: 42px;
+      font-weight: bold;
+      margin: 18px 0 5px;
+      position: relative;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    
+    .times-container {
+      padding: 0;
+      background-color: var(--light-bg);
+      position: relative;
+    }
+    
+    .prayer-time {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 25px;
+      border-bottom: 2px solid var(--border-light);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    
+    /* Islamic arch background for each prayer time */
+    .prayer-time::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 60%;
+      background-color: var(--gold);
+      opacity: 0.5;
+      border-radius: 4px;
+    }
+    
+    .prayer-time:last-child {
+      border-bottom: none;
+    }
+    
+    .prayer-name {
+      font-weight: bold;
+      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+      margin-left: 20px;
+    }
+    
+    .prayer-arabic {
+      font-family: 'Scheherazade New', serif;
+      font-size: 22px;
+      margin-top: 5px;
+      color: var(--gold-dark);
+    }
+    
+    .prayer-time-value {
+      font-size: 22px;
+      color: var(--primary);
+      font-weight: bold;
+      background-color: var(--light-accent);
+      padding: 8px 15px;
+      border-radius: 50px;
+      border: 1px solid var(--gold);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .next-prayer {
+      background-color: rgba(9, 72, 56, 0.08);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        background-color: rgba(9, 72, 56, 0.08);
+      }
+      50% {
+        background-color: rgba(9, 72, 56, 0.15);
+      }
+      100% {
+        background-color: rgba(9, 72, 56, 0.08);
+      }
+    }
+    
+    .next-prayer::before {
+      background-color: var(--primary);
+      opacity: 1;
+      height: 80%;
+    }
+    
+    .next-prayer .prayer-time-value {
+      background-color: var(--primary);
+      color: var(--gold);
+      border-color: var(--primary-dark);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+    
+    .next-prayer .prayer-arabic {
+      color: var(--primary);
+    }
+    
+    .countdown {
+      text-align: center;
+      padding: 20px;
+      font-size: 18px;
+      background-color: var(--primary);
+      color: var(--gold);
+      border-top: 5px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Islamic pattern for countdown */
+    .countdown::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.1;
+      background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+      background-size: contain;
+      background-position: center;
+    }
+    
+    .countdown span {
+      font-weight: bold;
+      color: #fff;
+      background-color: rgba(9, 72, 56, 0.8);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin: 0 5px;
+    }
+    
+    .divider {
+      height: 15px;
+      background-color: var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .divider::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(90deg, var(--primary) 25%, transparent 25%, transparent 75%, var(--primary) 75%, var(--primary)),
+                       linear-gradient(90deg, var(--primary) 25%, transparent 25%, transparent 75%, var(--primary) 75%, var(--primary));
+      background-size: 20px 10px;
+      background-position: 0 0, 10px 0;
+      opacity: 0.5;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 15px;
+      background-color: var(--primary);
+      color: var(--gold);
+      font-size: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.1;
+      background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+      background-size: 100px;
+      background-repeat: repeat;
+    }
+    
+    /* Islamic decorative elements */
+    .decorative-element {
+      text-align: center;
+      font-size: 24px;
+      color: var(--gold-dark);
+      opacity: 0.7;
+      padding: 10px 0;
+      background-color: #f5ebd6;
+      border-bottom: 1px dashed var(--gold);
+      border-top: 1px dashed var(--gold);
+    }
 
-:root {
-  --primary: #094838;
-  --primary-dark: #052e23;
-  --gold: #dbc391;
-  --gold-dark: #8a703f;
-  --light-bg: #fdf6e9;
-  --light-accent: #f0e6d2;
-  --border-light: #e6dfd0;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Amiri', serif;
-  background-color: #33261d;
-  margin: 0;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: #33312e;
-  background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
-  background-size: 300px;
-  background-repeat: repeat;
-  background-blend-mode: overlay;
-  background-color: rgba(51, 38, 29, 0.95);
-}
-
-.main-container {
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  padding: 20px;
-}
-
-/* Decorative corners */
-.corner {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  z-index: 2;
-}
-
-.corner-top-left {
-  top: 10px;
-  left: 10px;
-  border-top: 4px solid var(--gold);
-  border-left: 4px solid var(--gold);
-}
-
-.corner-top-right {
-  top: 10px;
-  right: 10px;
-  border-top: 4px solid var(--gold);
-  border-right: 4px solid var(--gold);
-}
-
-.corner-bottom-left {
-  bottom: 10px;
-  left: 10px;
-  border-bottom: 4px solid var(--gold);
-  border-left: 4px solid var(--gold);
-}
-
-.corner-bottom-right {
-  bottom: 10px;
-  right: 10px;
-  border-bottom: 4px solid var(--gold);
-  border-right: 4px solid var(--gold);
-}
-
-.container {
-  background-color: var(--light-bg);
-  border-radius: 8px;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  border: 12px solid transparent;
-  border-image: linear-gradient(45deg, var(--gold) 0%, var(--gold-dark) 100%) 1;
-}
-
-.islamic-border {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 8px solid var(--gold);
-  box-shadow: inset 0 0 0 2px var(--primary);
-  pointer-events: none;
-  border-radius: 2px;
-}
-
-.dome {
-  position: absolute;
-  top: -35px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 70px;
-  background-color: var(--primary);
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  border: 8px solid var(--gold);
-  border-bottom: none;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.dome::after {
-  content: "☪";
-  position: absolute;
-  top: 10px;
-  font-size: 24px;
-  color: var(--gold);
-}
-
-.header {
-  background-color: var(--primary);
-  color: white;
-  padding: 30px 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 6px solid var(--gold);
-}
-
-.header::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.1;
-  background-image: 
-    repeating-radial-gradient(circle at 0 0, transparent 0, var(--light-bg) 20px),
-    repeating-linear-gradient(#ffffff55, #ffffff55);
-  background-blend-mode: multiply;
-}
-
-.minaret-left, .minaret-right {
-  position: absolute;
-  bottom: 0;
-  width: 15px;
-  height: 60px;
-  background-color: var(--primary-dark);
-}
-
-.minaret-left {
-  left: 15%;
-}
-
-.minaret-right {
-  right: 15%;
-}
-
-.minaret-left::after, .minaret-right::after {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 0;
-  width: 15px;
-  height: 15px;
-  background-color: var(--primary-dark);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 28px;
-  font-family: 'Scheherazade New', serif;
-  font-weight: 700;
-  position: relative;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.arabic-title {
-  font-family: 'Scheherazade New', serif;
-  font-size: 42px;
-  margin-bottom: 10px;
-  color: var(--gold);
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.date-display {
-  font-size: 18px;
-  margin-top: 15px;
-  position: relative;
-  color: #e8d8b5;
-}
-
-.hijri-date {
-  font-size: 17px;
-  margin-top: 5px;
-  position: relative;
-  font-style: italic;
-  color: #e8d8b5;
-}
-
-.clock {
-  font-size: 42px;
-  font-weight: bold;
-  margin: 18px 0 5px;
-  position: relative;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-.times-container {
-  padding: 0;
-  background-color: var(--light-bg);
-  position: relative;
-}
-
-.prayer-time {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 25px;
-  border-bottom: 2px solid var(--border-light);
-  transition: all 0.4s ease;
-  position: relative;
-}
-
-.prayer-time::before {
-  content: "";
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 8px;
-  height: 60%;
-  background-color: var(--gold);
-  opacity: 0.5;
-  border-radius: 4px;
-}
-
-.prayer-time:last-child {
-  border-bottom: none;
-}
-
-.prayer-name {
-  font-weight: bold;
-  font-size: 18px;
-  display: flex;
-  flex-direction: column;
-  margin-left: 20px;
-}
-
-.prayer-arabic {
-  font-family: 'Scheherazade New', serif;
-  font-size: 22px;
-  margin-top: 5px;
-  color: var(--gold-dark);
-}
-
-.prayer-time-value {
-  font-size: 22px;
-  color: var(--primary);
-  font-weight: bold;
-  background-color: var(--light-accent);
-  padding: 8px 15px;
-  border-radius: 50px;
-  border: 1px solid var(--gold);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.next-prayer {
-  background-color: rgba(9, 72, 56, 0.08);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { background-color: rgba(9, 72, 56, 0.08); }
-  50% { background-color: rgba(9, 72, 56, 0.15); }
-  100% { background-color: rgba(9, 72, 56, 0.08); }
-}
-
-.next-prayer::before {
-  background-color: var(--primary);
-  opacity: 1;
-  height: 80%;
-}
-
-.next-prayer .prayer-time-value {
-  background-color: var(--primary);
-  color: var(--gold);
-  border-color: var(--primary-dark);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
-}
-
-.next-prayer .prayer-arabic {
-  color: var(--primary);
-}
-
-.countdown {
-  text-align: center;
-  padding: 20px;
-  font-size: 18px;
-  background-color: var(--primary);
-  color: var(--gold);
-  border-top: 5px solid var(--gold);
-  position: relative;
-  overflow: hidden;
-}
-
-.countdown::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.1;
-  background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
-  background-size: contain;
-  background-position: center;
-}
-
-.countdown span {
-  font-weight: bold;
-  color: #fff;
-  background-color: rgba(9, 72, 56, 0.8);
-  padding: 2px 8px;
-  border-radius: 4px;
-  margin: 0 5px;
-}
-
-.footer {
-  text-align: center;
-  padding: 15px;
-  background-color: var(--primary);
-  color: var(--gold);
-  font-size: 14px;
-  position: relative;
-  overflow: hidden;
-}
-
-.footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.1;
-  background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
-  background-size: 100px;
-  background-repeat: repeat;
-}
-
-.settings-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 100;
-  justify-content: center;
-  align-items: center;
-}
-
-.settings-content {
-  background-color: var(--light-bg);
-  padding: 20px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 400px;
-  border: 4px solid var(--gold);
-}
-
-.settings-header h2 {
-  color: var(--primary);
-  margin: 0;
-}
-
-.form-group input, .form-group select {
-  padding: 8px;
-  border: 1px solid var(--gold);
-  border-radius: 4px;
-  background-color: var(--light-accent);
-  color: var(--primary);
-}
-
-.save-button {
-  background-color: var(--primary);
-  color: var(--gold);
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-}
-
-/* Existing Media Query for 500px */
-@media (max-width: 500px) {
+    /* Loading indicator */
+    .loading {
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+      color: var(--gold-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(219, 195, 145, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--gold);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Location display */
+    .location-display {
+      font-size: 16px;
+      margin-top: 5px;
+      color: #e8d8b5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .location-icon {
+      width: 16px;
+      height: 16px;
+    }
+    
+    /* Settings button */
+    .settings-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: var(--gold);
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 10;
+    }
+    
+    /* Settings modal */
+    .settings-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .settings-content {
+      background-color: var(--light-bg);
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      border: 4px solid var(--gold);
+    }
+    
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 10px;
+    }
+    
+    .settings-header h2 {
+      color: var(--primary);
+      margin: 0;
+    }
+    
+    .close-button {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    .settings-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .form-group label {
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    .form-group input, .form-group select {
+      padding: 8px;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      background-color: var(--light-accent);
+      color: var(--primary);
+    }
+    
+    .save-button {
+      background-color: var(--primary);
+      color: var(--gold);
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+    
+    .save-button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+   @media (max-width: 500px) {
   .header h1 {
     font-size: 24px;
   }
+  
   .arabic-title {
     font-size: 36px;
   }
+  
   .clock {
     font-size: 36px;
   }
+  
   .minaret-left, .minaret-right {
     height: 40px;
   }
+  
   .prayer-name {
     font-size: 16px;
   }
+  
   .prayer-arabic {
     font-size: 20px;
   }
+  
   .prayer-time-value {
     font-size: 20px;
+    padding: 5px 10px; /* Reduce padding for better fit */
   }
+  
   .main-container {
     padding: 10px;
   }
-}
 
-/* New Media Query for 320px */
-@media (max-width: 320px) {
-  .main-container {
-    width: 100%; /* Use full width on very small screens */
-    padding: 5px;
+  .settings-button, .close-button, .save-button {
+    font-size: 16px; /* Adjust button font size */
   }
-  .header h1 {
-    font-size: 20px;
+  
+  .settings-modal {
+    padding: 10px; /* Add padding for better spacing */
   }
-  .arabic-title {
-    font-size: 30px;
-  }
-  .clock {
-    font-size: 30px;
-  }
-  .minaret-left, .minaret-right {
-    height: 30px;
-    width: 10px;
-  }
-  .minaret-left::after, .minaret-right::after {
-    width: 10px;
-    height: 10px;
-  }
-  .dome {
-    top: -25px;
-    width: 80px;
-    height: 50px;
-  }
-  .dome::after {
-    font-size: 20px;
-    top: 5px;
-  }
-  .prayer-time {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 15px;
-  }
-  .prayer-time::before {
-    left: 5px; /* Reduce indent */
-  }
-  .prayer-name {
-    font-size: 14px;
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
-  .prayer-arabic {
-    font-size: 18px;
-  }
-  .prayer-time-value {
-    font-size: 18px;
-    padding: 5px 10px;
-    align-self: flex-end;
-  }
-  .countdown {
-    padding: 10px;
-    font-size: 16px;
-  }
-  .footer {
-    padding: 10px;
-    font-size: 12px;
-  }
-  .corner {
-    width: 30px;
-    height: 30px;
-  }
+  
   .settings-content {
-    width: 95%;
-    padding: 15px;
+    width: 100%; /* Utilize full width on mobile */
   }
-  .settings-header h2 {
-    font-size: 18px;
-  }
+  
   .form-group input, .form-group select {
-    padding: 6px;
-  }
-  .save-button {
-    padding: 8px;
+    padding: 6px; /* Reduce padding for better fit */
   }
 }
   </style>
@@ -968,4 +1049,3 @@ body {
   </script>
 </body>
 </html>
-
