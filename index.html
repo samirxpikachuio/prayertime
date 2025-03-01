@@ -555,54 +555,55 @@
       background-color: var(--primary-dark);
     }
     
-   @media (max-width: 500px) {
-  .header h1 {
-    font-size: 24px;
-  }
-  
-  .arabic-title {
-    font-size: 36px;
-  }
-  
-  .clock {
-    font-size: 36px;
-  }
-  
-  .minaret-left, .minaret-right {
-    height: 40px;
-  }
-  
-  .prayer-name {
-    font-size: 16px;
-  }
-  
-  .prayer-arabic {
-    font-size: 20px;
-  }
-  
-  .prayer-time-value {
-    font-size: 20px;
-    padding: 5px 10px; /* Reduce padding for better fit */
-  }
-  
+@media (max-width: 500px) {
   .main-container {
-    padding: 10px;
+    width: 95%; /* Increase width to utilize more space */
+    padding: 15px; /* Adjust padding for better fit */
+  }
+
+  .header h1 {
+    font-size: 26px; /* Slightly increase font size */
+  }
+
+  .arabic-title {
+    font-size: 38px; /* Slightly increase font size */
+  }
+
+  .clock {
+    font-size: 38px; /* Slightly increase font size */
+  }
+
+  .minaret-left, .minaret-right {
+    height: 50px; /* Increase height for better visibility */
+  }
+
+  .prayer-name {
+    font-size: 18px; /* Increase font size for better readability */
+  }
+
+  .prayer-arabic {
+    font-size: 22px; /* Increase font size for better readability */
+  }
+
+  .prayer-time-value {
+    font-size: 24px; /* Increase font size for better readability */
+    padding: 10px 15px; /* Adjust padding for better fit */
   }
 
   .settings-button, .close-button, .save-button {
-    font-size: 16px; /* Adjust button font size */
+    font-size: 18px; /* Adjust button font size */
   }
-  
+
   .settings-modal {
-    padding: 10px; /* Add padding for better spacing */
+    padding: 15px; /* Add padding for better spacing */
   }
-  
+
   .settings-content {
     width: 100%; /* Utilize full width on mobile */
   }
-  
+
   .form-group input, .form-group select {
-    padding: 6px; /* Reduce padding for better fit */
+    padding: 8px; /* Adjust padding for better fit */
   }
 }
   </style>
