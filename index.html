@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ramadan Prayer Timecard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap');
+    
+    :root {
+      --primary: #094838;
+      --primary-dark: #052e23;
+      --gold: #dbc391;
+      --gold-dark: #8a703f;
+      --light-bg: #fdf6e9;
+      --light-accent: #f0e6d2;
+      --border-light: #e6dfd0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Amiri', serif;
+      background-color: #33261d;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #33312e;
+      background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+      background-size: 300px;
+      background-repeat: repeat;
+      background-blend-mode: overlay;
+      background-color: rgba(51, 38, 29, 0.95);
+    }
+    
+    .main-container {
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      padding: 20px;
+    }
+    
+    /* Decorative corners */
+    .corner {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      z-index: 2;
+    }
+    
+    .corner-top-left {
+      top: 10px;
+      left: 10px;
+      border-top: 4px solid var(--gold);
+      border-left: 4px solid var(--gold);
+    }
+    
+    .corner-top-right {
+      top: 10px;
+      right: 10px;
+      border-top: 4px solid var(--gold);
+      border-right: 4px solid var(--gold);
+    }
+    
+    .corner-bottom-left {
+      bottom: 10px;
+      left: 10px;
+      border-bottom: 4px solid var(--gold);
+      border-left: 4px solid var(--gold);
+    }
+    
+    .corner-bottom-right {
+      bottom: 10px;
+      right: 10px;
+      border-bottom: 4px solid var(--gold);
+      border-right: 4px solid var(--gold);
+    }
+    
+    .container {
+      background-color: var(--light-bg);
+      border-radius: 8px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      border: 12px solid transparent;
+      border-image: linear-gradient(45deg, var(--gold) 0%, var(--gold-dark) 100%) 1;
+    }
+    
+    /* Islamic pattern border */
+    .islamic-border {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 8px solid var(--gold);
+      box-shadow: inset 0 0 0 2px var(--primary);
+      pointer-events: none;
+      border-radius: 2px;
+    }
+    
+    /* Decorative dome shape for top */
+    .dome {
+      position: absolute;
+      top: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 70px;
+      background-color: var(--primary);
+      border-top-left-radius: 50px;
+      border-top-right-radius: 50px;
+      border: 8px solid var(--gold);
+      border-bottom: none;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .dome::after {
+      content: "☪";
+      position: absolute;
+      top: 10px;
+      font-size: 24px;
+      color: var(--gold);
+    }
+    
+    .header {
+      background-color: var(--primary);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 6px solid var(--gold);
+    }
+    
+    /* Islamic pattern overlay for header */
+    .header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.1;
+      background-image: 
+        repeating-radial-gradient(circle at 0 0, transparent 0, var(--light-bg) 20px),
+        repeating-linear-gradient(#ffffff55, #ffffff55);
+      background-blend-mode: multiply;
+    }
+    
+    /* Minaret silhouettes */
+    .minaret-left, .minaret-right {
+      position: absolute;
+      bottom: 0;
+      width: 15px;
+      height: 60px;
+      background-color: var(--primary-dark);
+    }
+    
+    .minaret-left {
+      left: 15%;
+    }
+    
+    .minaret-right {
+      right: 15%;
+    }
+    
+    .minaret-left::after, .minaret-right::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 15px;
+      height: 15px;
+      background-color: var(--primary-dark);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-family: 'Scheherazade New', serif;
+      font-weight: 700;
+      position: relative;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    
+    .arabic-title {
+      font-family: 'Scheherazade New', serif;
+      font-size: 42px;
+      margin-bottom: 10px;
+      color: var(--gold);
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    
+    .date-display {
+      font-size: 18px;
+      margin-top: 15px;
+      position: relative;
+      color: #e8d8b5;
+    }
+    
+    .hijri-date {
+      font-size: 17px;
+      margin-top: 5px;
+      position: relative;
+      font-style: italic;
+      color: #e8d8b5;
+    }
+    
+    .clock {
+      font-size: 42px;
+      font-weight: bold;
+      margin: 18px 0 5px;
+      position: relative;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    
+    .times-container {
+      padding: 0;
+      background-color: var(--light-bg);
+      position: relative;
+    }
+    
+    .prayer-time {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 25px;
+      border-bottom: 2px solid var(--border-light);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    
+    /* Islamic arch background for each prayer time */
+    .prayer-time::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 60%;
+      background-color: var(--gold);
+      opacity: 0.5;
+      border-radius: 4px;
+    }
+    
+    .prayer-time:last-child {
+      border-bottom: none;
+    }
+    
+    .prayer-name {
+      font-weight: bold;
+      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+      margin-left: 20px;
+    }
+    
+    .prayer-arabic {
+      font-family: 'Scheherazade New', serif;
+      font-size: 22px;
+      margin-top: 5px;
+      color: var(--gold-dark);
+    }
+    
+    .prayer-time-value {
+      font-size: 22px;
+      color: var(--primary);
+      font-weight: bold;
+      background-color: var(--light-accent);
+      padding: 8px 15px;
+      border-radius: 50px;
+      border: 1px solid var(--gold);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .next-prayer {
+      background-color: rgba(9, 72, 56, 0.08);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        background-color: rgba(9, 72, 56, 0.08);
+      }
+      50% {
+        background-color: rgba(9, 72, 56, 0.15);
+      }
+      100% {
+        background-color: rgba(9, 72, 56, 0.08);
+      }
+    }
+    
+    .next-prayer::before {
+      background-color: var(--primary);
+      opacity: 1;
+      height: 80%;
+    }
+    
+    .next-prayer .prayer-time-value {
+      background-color: var(--primary);
+      color: var(--gold);
+      border-color: var(--primary-dark);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+    
+    .next-prayer .prayer-arabic {
+      color: var(--primary);
+    }
+    
+    .countdown {
+      text-align: center;
+      padding: 20px;
+      font-size: 18px;
+      background-color: var(--primary);
+      color: var(--gold);
+      border-top: 5px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Islamic pattern for countdown */
+    .countdown::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.1;
+      background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+      background-size: contain;
+      background-position: center;
+    }
+    
+    .countdown span {
+      font-weight: bold;
+      color: #fff;
+      background-color: rgba(9, 72, 56, 0.8);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin: 0 5px;
+    }
+    
+    .divider {
+      height: 15px;
+      background-color: var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .divider::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(90deg, var(--primary) 25%, transparent 25%, transparent 75%, var(--primary) 75%, var(--primary)),
+                       linear-gradient(90deg, var(--primary) 25%, transparent 25%, transparent 75%, var(--primary) 75%, var(--primary));
+      background-size: 20px 10px;
+      background-position: 0 0, 10px 0;
+      opacity: 0.5;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 15px;
+      background-color: var(--primary);
+      color: var(--gold);
+      font-size: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.1;
+      background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+      background-size: 100px;
+      background-repeat: repeat;
+    }
+    
+    /* Islamic decorative elements */
+    .decorative-element {
+      text-align: center;
+      font-size: 24px;
+      color: var(--gold-dark);
+      opacity: 0.7;
+      padding: 10px 0;
+      background-color: #f5ebd6;
+      border-bottom: 1px dashed var(--gold);
+      border-top: 1px dashed var(--gold);
+    }
+
+    /* Loading indicator */
+    .loading {
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+      color: var(--gold-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(219, 195, 145, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--gold);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Location display */
+    .location-display {
+      font-size: 16px;
+      margin-top: 5px;
+      color: #e8d8b5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .location-icon {
+      width: 16px;
+      height: 16px;
+    }
+    
+    /* Settings button */
+    .settings-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: var(--gold);
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 10;
+    }
+    
+    /* Settings modal */
+    .settings-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .settings-content {
+      background-color: var(--light-bg);
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      border: 4px solid var(--gold);
+    }
+    
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 10px;
+    }
+    
+    .settings-header h2 {
+      color: var(--primary);
+      margin: 0;
+    }
+    
+    .close-button {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    .settings-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .form-group label {
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    .form-group input, .form-group select {
+      padding: 8px;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      background-color: var(--light-accent);
+      color: var(--primary);
+    }
+    
+    .save-button {
+      background-color: var(--primary);
+      color: var(--gold);
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+    
+    .save-button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    @media (max-width: 500px) {
+      .header h1 {
+        font-size: 24px;
+      }
+      
+      .arabic-title {
+        font-size: 36px;
+      }
+      
+      .clock {
+        font-size: 36px;
+      }
+      
+      .minaret-left, .minaret-right {
+        height: 40px;
+      }
+      
+      .prayer-name {
+        font-size: 16px;
+      }
+      
+      .prayer-arabic {
+        font-size: 20px;
+      }
+      
+      .prayer-time-value {
+        font-size: 20px;
+      }
+      
+      .main-container {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="corner corner-top-left"></div>
+    <div class="corner corner-top-right"></div>
+    <div class="corner corner-bottom-left"></div>
+    <div class="corner corner-bottom-right"></div>
+    <div class="dome"></div>
+    <div class="container">
+      <div class="islamic-border"></div>
+      <div class="header">
+        <button class="settings-button" id="settings-button" title="Settings">⚙️</button>
+        <div class="minaret-left"></div>
+        <div class="minaret-right"></div>
+        <div class="arabic-title">أوقات الصلاة</div>
+        <h1>Ramadan Prayer Times</h1>
+        <div class="date-display" id="date-display">Loading date...</div>
+        <div class="hijri-date" id="hijri-date">Loading Hijri date...</div>
+        <div class="location-display" id="location-display">
+          <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span id="location-text">Dinajpur, Bangladesh</span>
+        </div>
+        <div class="clock" id="clock">00:00:00</div>
+      </div>
+      
+      <div class="decorative-element">﷽</div>
+      
+      <div class="times-container" id="prayer-times">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          Loading prayer times...
+        </div>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="countdown" id="countdown">
+        Next prayer in <span id="time-remaining">00:00:00</span>
+      </div>
+      
+      <div class="footer">
+        رَمَضَان كَرِيم - Ramadan Kareem
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="settings-modal" id="settings-modal">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h2>Settings</h2>
+        <button class="close-button" id="close-settings">&times;</button>
+      </div>
+      <div class="settings-form">
+        <div class="form-group">
+          <label for="city-input">City</label>
+          <input type="text" id="city-input" placeholder="Enter city name">
+        </div>
+        <div class="form-group">
+          <label for="country-input">Country</label>
+          <input type="text" id="country-input" placeholder="Enter country name">
+        </div>
+        <div class="form-group">
+          <label for="calculation-method">Calculation Method</label>
+          <select id="calculation-method">
+            <option value="0">Shia Ithna-Ashari</option>
+            <option value="1">University of Islamic Sciences, Karachi</option>
+            <option value="2" selected>Islamic Society of North America</option>
+            <option value="3">Muslim World League</option>
+            <option value="4">Umm al-Qura University, Makkah</option>
+            <option value="5">Egyptian General Authority of Survey</option>
+            <option value="7">Institute of Geophysics, University of Tehran</option>
+            <option value="8">Gulf Region</option>
+            <option value="9">Kuwait</option>
+            <option value="10">Qatar</option>
+            <option value="11">Majlis Ugama Islam Singapura, Singapore</option>
+            <option value="12">Union Organization Islamic de France</option>
+            <option value="13">Diyanet İşleri Başkanlığı, Turkey</option>
+            <option value="14">Spiritual Administration of Muslims of Russia</option>
+            <option value="15">Moonsighting Committee Worldwide</option>
+          </select>
+        </div>
+        <button class="save-button" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Config settings
+    let config = {
+      city: 'Dinajpur',
+      country: 'Bangladesh',
+      year: 2025,
+      month: 3, 
+      method: 2 
+    };
+    
+    
+    try {
+      const savedConfig = localStorage.getItem('prayerTimesConfig');
+      if (savedConfig) {
+        config = {...config, ...JSON.parse(savedConfig)};
+      }
+    } catch (e) {
+      console.error('Error loading saved config:', e);
+    }
+    
+   
+    const prayerNames = {
+      Fajr: { arabic: "الفجر" },
+      Sunrise: { arabic: "الشروق" },
+      Dhuhr: { arabic: "الظهر" },
+      Asr: { arabic: "العصر" },
+      Maghrib: { arabic: "المغرب" },
+      Isha: { arabic: "العشاء" },
+      Imsak: { arabic: "الإمساك" }
+    };
+    
+
+    let prayerTimesData = [];
+    let currentDayData = null;
+  
+    function cleanTime(timeString) {
+      return timeString.split(' ')[0];
+    }
+    
+    
+    function formatTime(timeString) {
+      const [hours, minutes] = timeString.split(':');
+      const h = parseInt(hours);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const hour12 = h % 12 || 12;
+      return `${hour12}:${minutes} ${ampm}`;
+    }
+    
+    async function fetchPrayerTimes() {
+      try {
+        const loadingElement = document.getElementById('prayer-times');
+        loadingElement.innerHTML = `
+          <div class="loading">
+            <div class="loading-spinner"></div>
+            Loading prayer times...
+          </div>
+        `;
+        
+        const response = await fetch(
+          `https://api.aladhan.com/v1/calendarByCity?city=${config.city}&country=${config.country}&method=${config.method}&month=${config.month}&year=${config.year}`
+        );
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.data) {
+          prayerTimesData = data.data;
+          return true;
+        } else {
+          throw new Error('Invalid data structure received from API');
+        }
+      } catch (error) {
+        console.error('Error fetching prayer times:', error);
+        document.getElementById('prayer-times').innerHTML = `
+          <div class="loading">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Could not load prayer times. Please check your connection and settings.
+          </div>
+        `;
+        return false;
+      }
+    }
+    
+
+    function getCurrentDayData() {
+      const today = new Date();
+      const day = today.getDate();
+      
+  
+      const dayData = prayerTimesData.find(item => {
+        const itemDate = new Date(item.date.gregorian.date);
+        return itemDate.getDate() === day && 
+               itemDate.getMonth() + 1 === config.month && 
+               itemDate.getFullYear() === config.year;
+      });
+      
+      if (dayData) {
+        return dayData;
+      }
+      
+    
+      return prayerTimesData[0];
+    }
+    
+   
+    function updateDateDisplay() {
+      if (!currentDayData) return;
+      
+      const gregorianDate = currentDayData.date.gregorian;
+      const hijriDate = currentDayData.date.hijri;
+      
+      document.getElementById('date-display').textContent = 
+        `${gregorianDate.weekday.en}, ${gregorianDate.day} ${gregorianDate.month.en} ${gregorianDate.year}`;
+      
+      document.getElementById('hijri-date').textContent = 
+        `${hijriDate.day} ${hijriDate.month.en} ${hijriDate.year}`;
+      
+      document.getElementById('location-text').textContent = 
+        `${config.city}, ${config.country}`;
+    }
+    
+
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      
+      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    
+    
+    function renderPrayerTimes() {
+      if (!currentDayData) return;
+      
+      const container = document.getElementById('prayer-times');
+      container.innerHTML = '';
+      
+      const timings = currentDayData.timings;
+   
+      const prayersToDisplay = [
+        { key: 'Imsak', name: 'Suhoor Ends' },
+        { key: 'Fajr', name: 'Fajr' },
+        { key: 'Sunrise', name: 'Sunrise' },
+        { key: 'Dhuhr', name: 'Dhuhr' },
+        { key: 'Asr', name: 'Asr' },
+        { key: 'Maghrib', name: 'Maghrib' },
+        { key: 'Isha', name: 'Isha' }
+      ];
+      
+      prayersToDisplay.forEach(prayer => {
+        if (timings[prayer.key]) {
+          const div = document.createElement('div');
+          div.className = 'prayer-time';
+          div.id = `prayer-${prayer.key.toLowerCase()}`;
+          
+          const cleanedTime = cleanTime(timings[prayer.key]);
+          const formattedTime = formatTime(cleanedTime);
+          
+          const arabicName = prayerNames[prayer.key] ? 
+                          prayerNames[prayer.key].arabic : 
+                          '';
+          
+          div.innerHTML = `
+            <div class="prayer-name">
+              ${prayer.name}
+              <div class="prayer-arabic">${arabicName}</div>
+            </div>
+            <div class="prayer-time-value">${formattedTime}</div>
+          `;
+          
+          container.appendChild(div);
+        }
+      });
+    }
+    
+  
+    function timeStringToDate(timeString) {
+      const now = new Date();
+      const [hours, minutes] = timeString.split(':').map(Number);
+      
+      const date = new Date(now);
+      date.setHours(hours, minutes, 0, 0);
+      
+      return date;
+    }
+    
+  
+    function updateNextPrayer() {
+      if (!currentDayData) return;
+      
+      const now = new Date();
+      const currentHours = now.getHours();
+      const currentMinutes = now.getMinutes();
+      const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+      
+
+      document.querySelectorAll('.prayer-time').forEach(el => {
+        el.classList.remove('next-prayer');
+      });
+      
+
+      const prayersToCheck = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+      const timings = currentDayData.timings;
+      
+
+      let nextPrayerKey = null;
+      let nextPrayerTime = null;
+      let minDifference = Infinity;
+      
+      prayersToCheck.forEach(key => {
+        if (timings[key]) {
+          const cleanedTime = cleanTime(timings[key]);
+          const [prayerHours, prayerMinutes] = cleanedTime.split(':').map(Number);
+          const prayerTimeInMinutes = prayerHours * 60 + prayerMinutes;
+          
+         
+          let difference = prayerTimeInMinutes - currentTimeInMinutes;
+          if (difference < 0) {
+            difference += 24 * 60; // Add 24 hours if the prayer time is earlier today
+          }
+          
+          if (difference < minDifference && difference > 0) {
+            minDifference = difference;
+            nextPrayerKey = key;
+            nextPrayerTime = cleanedTime;
+          }
+        }
+      });
+      
+      
+      if (!nextPrayerKey) {
+        nextPrayerKey = 'Fajr';
+        const cleanedTime = cleanTime(timings['Fajr']);
+        nextPrayerTime = cleanedTime;
+        
+        const [prayerHours, prayerMinutes] = cleanedTime.split(':').map(Number);
+        minDifference = (24 * 60) + (prayerHours * 60 + prayerMinutes) - currentTimeInMinutes;
+      }
+      
+  
+      const nextPrayerElement = document.getElementById(`prayer-${nextPrayerKey.toLowerCase()}`);
+      if (nextPrayerElement) {
+        nextPrayerElement.classList.add('next-prayer');
+      }
+      
+    
+      const hoursRemaining = Math.floor(minDifference / 60);
+      const minutesRemaining = Math.floor(minDifference % 60);
+      const secondsRemaining = 60 - now.getSeconds();
+      
+   
+      document.getElementById('countdown').innerHTML = 
+        `Next prayer: <strong>${nextPrayerKey}</strong> in <span id="time-remaining">
+        ${hoursRemaining.toString().padStart(2, '0')}:${minutesRemaining.toString().padStart(2, '0')}:${secondsRemaining.toString().padStart(2, '0')}</span>`;
+    }
+    
+    function setupSettingsModal() {
+      const settingsButton = document.getElementById('settings-button');
+      const settingsModal = document.getElementById('settings-modal');
+      const closeButton = document.getElementById('close-settings');
+      const saveButton = document.getElementById('save-settings');
+      
+  
+      document.getElementById('city-input').value = config.city;
+      document.getElementById('country-input').value = config.country;
+      document.getElementById('calculation-method').value = config.method;
+      
+   
+      settingsButton.addEventListener('click', () => {
+        settingsModal.style.display = 'flex';
+      });
+      
+
+      closeButton.addEventListener('click', () => {
+        settingsModal.style.display = 'none';
+      });
+      
+     
+      settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) {
+          settingsModal.style.display = 'none';
+        }
+      });
+      
+     
+      saveButton.addEventListener('click', async () => {
+        const newCity = document.getElementById('city-input').value;
+        const newCountry = document.getElementById('country-input').value;
+        const newMethod = document.getElementById('calculation-method').value;
+        
+        if (newCity && newCountry) {
+          config.city = newCity;
+          config.country = newCountry;
+          config.method = newMethod;
+          
+
+          localStorage.setItem('prayerTimesConfig', JSON.stringify({
+            city: config.city,
+            country: config.country,
+            method: parseInt(config.method)
+          }));
+          
+   
+          const success = await fetchPrayerTimes();
+          
+          if (success) {
+            currentDayData = getCurrentDayData();
+            updateDateDisplay();
+            renderPrayerTimes();
+            updateNextPrayer();
+          }
+          
+      
+          settingsModal.style.display = 'none';
+        }
+      });
+    }
+    
+  
+    async function init() {
+      updateClock();
+      setInterval(updateClock, 1000);
+      
+  
+      setupSettingsModal();
+      
+    
+      const success = await fetchPrayerTimes();
+      
+      if (success) {
+        currentDayData = getCurrentDayData();
+        updateDateDisplay();
+        renderPrayerTimes();
+        updateNextPrayer();
+        
+        
+        setInterval(updateNextPrayer, 60000);
+      }
+    }
+    
+    
+    window.onload = init;
+  </script>
+</body>
+</html>
+
